@@ -229,6 +229,11 @@
       } else if(y + dy > canvas.height-ballRadius-paddleHeight) {
         // Collision with bottom of canvas
         if (x > paddleX && x < paddleX + paddleWidth) {
+          // Collision with paddle
+          if (dy < 4)
+            dy *= 1.2;
+          if (dx > .7)
+            dx *= 0.97;
           dy = -dy;
         } else if (y + dy > canvas.height && running) {
           lives--;
