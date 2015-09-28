@@ -254,8 +254,9 @@
       x += dx;
       y += dy;
     }
+    requestAnimationFrame(draw);
   }
-  var gameInterval = setInterval(draw, 10);
+  draw();
 
   </script>
 
