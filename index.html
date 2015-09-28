@@ -73,10 +73,20 @@
     drawPaddle();
 
     if(x + dx > canvas.width-ballRadius || x + dx < 0+ballRadius) {
+      // Collision with sides of canvas
       dx = -dx;
     }
-    if(y + dy > canvas.height-ballRadius || y + dy < 0+ballRadius) {
+    if(y + dy < ballRadius) {
+      // Collision with roof of canvas
       dy = -dy;
+    } else if(y + dy > canvas.height-ballRadius-paddleHeight) {
+      // Collision with bottom of canvas
+      if (x > paddleX && x < paddleX + paddleWidth) {
+        dy = -dy;
+      } else {
+        // alert("Game Over");
+        document.location.reload();
+      }
     }
 
     if(rightPressed && paddleX < canvas.width-paddleWidth) {
@@ -85,7 +95,7 @@
     else if (leftPressed && paddleX > 0) {
       paddleX -= 7;
     }
-    
+
     x += dx;
     y += dy;
   }
