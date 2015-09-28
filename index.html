@@ -56,6 +56,7 @@
 
   <script>
   var running = false;
+  var gameWon = false;
 
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
@@ -141,6 +142,8 @@
               message.innerHTML = 'YOU WIN, CONGRATULATIONS!';
               message.className = 'absolutely-no-bg';
               startButton.className = '';
+              startButton.innerHTML = 'New Game';
+              gameWon = true;
             }
           }
         }
@@ -180,10 +183,14 @@
   var startButton = document.getElementById('start');
   startButton.addEventListener('click', runGame, false);
   function runGame() {
-    startButton.className = 'hidden';
-    message.className = 'hidden';
-    canvas.className = 'hide-cursor';
-    running = true;
+    if (!gameWon) {
+      startButton.className = 'hidden';
+      message.className = 'hidden';
+      canvas.className = 'hide-cursor';
+      running = true;
+    } else {
+      document.location.reload();
+    }
   }
 
   // Scoring
