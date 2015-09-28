@@ -23,6 +23,8 @@
   <div id="message"></div>
 
   <script>
+  var gameOver = false;
+
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
 
@@ -94,8 +96,18 @@
         var b = bricks[c][r];
         if (b.status === 1) {
           if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight+ballRadius) {
+            // Ball hit brick
             dy = -dy;
             b.status = 0;
+            score++;
+            if(score === brickRowCount*brickColumnCount) {
+              gameOver = true;
+              var msg = document.getElementById('message');
+              msg.innerHTML = 'YOU WIN, CONGRATULATIONS!';
+              setTimeout(function(){
+                document.location.reload();
+              },2000);
+            }
           }
         }
       }
@@ -124,7 +136,13 @@
     }
   }
 
-
+  // Scoring
+  var score = 0;
+  function drawScore() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Score: " + score, 8, 20);
+  }
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -132,6 +150,7 @@
     drawBall();
     collisionDetection();
     drawPaddle();
+    drawScore();
 
     if(x + dx > canvas.width-ballRadius || x + dx < 0+ballRadius) {
       // Collision with sides of canvas
@@ -144,9 +163,10 @@
       // Collision with bottom of canvas
       if (x > paddleX && x < paddleX + paddleWidth) {
         dy = -dy;
-      } else if (y + dy > canvas.height) {
+      } else if (y + dy > canvas.height && !gameOver) {
         var msg = document.getElementById('message');
         msg.innerHTML = 'Game Over';
+        gameOver = true;
         setTimeout(function(){
           document.location.reload();
         },2000);
